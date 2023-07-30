@@ -1,4 +1,4 @@
-import 'package:cook_recipe/ui/recipe.dart';
+import 'package:cook_recipe/screens/recipe.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatelessWidget {

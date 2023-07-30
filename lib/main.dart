@@ -1,4 +1,4 @@
-import 'package:cook_recipe/ui/home_widget.dart';
+import 'package:cook_recipe/screens/home_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
