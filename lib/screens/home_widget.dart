@@ -1,4 +1,4 @@
-import 'package:cook_recipe/screens/recipe.dart';
+import 'package:cook_recipe/screens/recipe_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -62,7 +62,7 @@ class HomeWidget extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const RecipeScreen(recipe: "국"),
+                                  const RecipeCard(recipe: "국"),
                               fullscreenDialog: true));
                     },
                     child: Container(
@@ -103,111 +103,141 @@ class HomeWidget extends StatelessWidget {
                   const SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.7),
-                              blurRadius: 2.0,
-                              spreadRadius: 2.0,
-                              offset: const Offset(2, 3))
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.rice_bowl,
-                            size: 130,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "밥",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const RecipeCard(recipe: "밥"),
+                              fullscreenDialog: true));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                blurRadius: 2.0,
+                                spreadRadius: 2.0,
+                                offset: const Offset(2, 3))
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.rice_bowl,
+                              size: 130,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "밥",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.7),
-                              blurRadius: 2.0,
-                              spreadRadius: 2.0,
-                              offset: const Offset(2, 3))
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.dining_sharp,
-                            size: 130,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "후식",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const RecipeCard(recipe: "반찬"),
+                              fullscreenDialog: true));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                blurRadius: 2.0,
+                                spreadRadius: 2.0,
+                                offset: const Offset(2, 3))
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.dining_sharp,
+                              size: 130,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "반찬",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.7),
-                              blurRadius: 2.0,
-                              spreadRadius: 2.0,
-                              offset: const Offset(2, 3))
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.cookie,
-                            size: 130,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "후식",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const RecipeCard(recipe: "후식"),
+                              fullscreenDialog: true));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                blurRadius: 2.0,
+                                spreadRadius: 2.0,
+                                offset: const Offset(2, 3))
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.cookie,
+                              size: 130,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "후식",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

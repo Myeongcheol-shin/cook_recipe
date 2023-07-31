@@ -1,8 +1,9 @@
 class Recipe {
-  final String recipeName, image1;
+  final String recipeName, image1, ingredient;
   Recipe.jsonDecode(Map<String, dynamic> json)
       : recipeName = json['RCP_NM'],
-        image1 = json['ATT_FILE_NO_MK'];
+        image1 = json['ATT_FILE_NO_MK'],
+        ingredient = json['RCP_PARTS_DTLS'];
 }
 
 class Cook {
