@@ -76,6 +76,12 @@ class _RecipeCardState extends State<RecipeCard> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(_loadMore);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

@@ -32,6 +32,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
               ),
             ),
           ),
+          actions: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark))
+          ],
           title: Text(
             widget.recipe.recipeName,
             style: const TextStyle(
@@ -141,6 +144,38 @@ class _RecipeDetailState extends State<RecipeDetail> {
                   )),
             ),
           ),
+          Positioned(
+            left: 100,
+            right: 100,
+            bottom: 30,
+            child: Container(
+              height: 40,
+              margin: const EdgeInsets.only(bottom: 40),
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    blurRadius: 1.0,
+                    spreadRadius: 1.0,
+                    offset: const Offset(1, 2))
+              ], borderRadius: BorderRadius.circular(20), color: Colors.green),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "레시피 보러가기",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
