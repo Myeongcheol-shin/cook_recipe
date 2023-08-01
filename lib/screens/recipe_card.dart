@@ -40,9 +40,11 @@ class _RecipeCardState extends State<RecipeCard> {
         _recipes.addAll(res);
       });
     } catch (e) {}
-    setState(() {
-      _isFirstRunning = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isFirstRunning = false;
+      });
+    }
   }
 
   _loadMore() async {

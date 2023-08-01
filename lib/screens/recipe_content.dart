@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class RecipeContent extends StatefulWidget {
   final Recipe recipe;
-
+  
   const RecipeContent({super.key, required this.recipe});
 
   @override
@@ -13,7 +13,6 @@ class RecipeContent extends StatefulWidget {
 
 class _RecipeContentState extends State<RecipeContent> {
   List<List<String?>> recipeList = [];
-
   List<List<String?>> getRecipeList() {
     final recipeList = [
       [widget.recipe.recipe1, widget.recipe.recipImg1],
