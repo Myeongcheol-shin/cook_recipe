@@ -1,6 +1,11 @@
 class Recipe {
-  final String recipeName, image1, ingredient;
+  final String recipeName, image1, ingredient, serialNumber;
   final String? recipe1,
+      infoNa,
+      infoCar,
+      infoEng,
+      infoFat,
+      infoPro,
       recipe2,
       recipe3,
       recipe4,
@@ -39,7 +44,13 @@ class Recipe {
       recipImg18,
       recipImg19;
   Recipe.jsonDecode(Map<String, dynamic> json)
-      : recipeName = json['RCP_NM'],
+      : serialNumber = json['RCP_SEQ'],
+        recipeName = json['RCP_NM'],
+        infoNa = json['INFO_NA'],
+        infoFat = json['INFO_FAT'],
+        infoPro = json['INFO_PRO'],
+        infoCar = json['INFO_CAR'],
+        infoEng = json['INFO_ENG'],
         recipe1 = json['MANUAL01'],
         recipe2 = json['MANUAL02'],
         recipe3 = json['MANUAL03'],

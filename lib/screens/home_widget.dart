@@ -1,8 +1,26 @@
 import 'package:cook_recipe/screens/recipe_card.dart';
+import 'package:cook_recipe/database/db.dart';
+import 'package:cook_recipe/database/recipe_data.dart';
 import 'package:flutter/material.dart';
 
-class HomeWidget extends StatelessWidget {
+class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
+
+  @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  late Future<List<RecipeDB>> recipeDB;
+  @override
+  void initState() {
+    super.initState();
+    recipeDB = getRecipeDB();
+  }
+
+  Future<List<RecipeDB>> getRecipeDB() async {
+    return await DatabaseHelper.instance.getRecipe();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +77,16 @@ class HomeWidget extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const RecipeCard(recipe: "국"),
-                              fullscreenDialog: true));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RecipeCard(recipe: "국"),
+                                  fullscreenDialog: true))
+                          .then((value) {
+                        setState(() {
+                          recipeDB = getRecipeDB();
+                        });
+                      });
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -243,6 +266,47 @@ class HomeWidget extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const Row(
+              children: [
+                Text(
+                  "Favorites",
+                  style: TextStyle(
+                      fontSize: 35,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Icon(
+                  Icons.star_rate_rounded,
+                  color: Colors.yellow,
+                  size: 50,
+                )
+              ],
+            ),
+            FutureBuilder(
+              future: recipeDB,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return Text(
+                          snapshot.data![index].recipeName,
+                          style: const TextStyle(color: Colors.black),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
             )
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:cook_recipe/models/recipe.dart';
 import 'package:cook_recipe/screens/recipe_content.dart';
+import 'package:cook_recipe/database/db.dart';
+import 'package:cook_recipe/database/recipe_data.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +15,38 @@ class RecipeDetail extends StatefulWidget {
 
 class _RecipeDetailState extends State<RecipeDetail> {
   late List<String> ingredients;
+  late Future<bool> favorites;
+  int dbUpdateLoading = 0;
   @override
   void initState() {
     super.initState();
     ingredients = widget.recipe.ingredient.split(",");
     ingredients.sort((a, b) => a.length.compareTo(b.length));
+    favorites = checkFavorites();
+  }
+
+  Future<bool> checkFavorites() async {
+    return await DatabaseHelper.instance
+        .checkRecipeExists(widget.recipe.serialNumber);
+  }
+
+  setFavorite() async {
+    if (await DatabaseHelper.instance
+        .checkRecipeExists(widget.recipe.serialNumber)) {
+      dbUpdateLoading =
+          await DatabaseHelper.instance.remove(widget.recipe.serialNumber);
+      setState(() {
+        favorites = Future.value(false);
+      });
+    } else {
+      dbUpdateLoading = await DatabaseHelper.instance.add(RecipeDB(
+          serialNumber: widget.recipe.serialNumber,
+          recipeName: widget.recipe.recipeName,
+          img: widget.recipe.image1));
+      setState(() {
+        favorites = Future.value(true);
+      });
+    }
   }
 
   @override
@@ -34,7 +63,22 @@ class _RecipeDetailState extends State<RecipeDetail> {
             ),
           ),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark))
+            FutureBuilder(
+              future: favorites,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return IconButton(
+                      onPressed: () {
+                        setFavorite();
+                      },
+                      icon: snapshot.data == true
+                          ? const Icon(Icons.bookmark_rounded)
+                          : const Icon(Icons.bookmark_border_rounded));
+                } else {
+                  return const SizedBox();
+                }
+              },
+            )
           ],
           title: Text(
             widget.recipe.recipeName,
@@ -130,7 +174,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5))),
                                   child: Text(
-                                    item,
+                                    item.split("\n").join(),
                                     style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.white,
@@ -139,7 +183,212 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 )
                             ],
                           ),
-                        )
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20),
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            "영양성분",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: const Text(
+                                            "칼로리 : ",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 5),
+                                          margin: const EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.deepOrange.shade200,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5))),
+                                          child: Text(
+                                            widget.recipe.infoEng == null
+                                                ? "정보없음"
+                                                : "${widget.recipe.infoEng}kcal",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: const Text(
+                                            "나트륨 : ",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 5),
+                                          margin: const EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.deepOrange.shade200,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5))),
+                                          child: Text(
+                                            widget.recipe.infoNa == null
+                                                ? "정보없음"
+                                                : "${widget.recipe.infoNa}g",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: const Text(
+                                            "지방 : ",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 5),
+                                          margin: const EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.deepOrange.shade200,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5))),
+                                          child: Text(
+                                            widget.recipe.infoFat == null
+                                                ? "정보없음"
+                                                : "${widget.recipe.infoFat}g",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: const Text(
+                                            "탄수화물 : ",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 5),
+                                          margin: const EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.deepOrange.shade200,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5))),
+                                          child: Text(
+                                            widget.recipe.infoCar == null
+                                                ? "정보없음"
+                                                : "${widget.recipe.infoCar}g",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: const Text(
+                                            "단백질 : ",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 5),
+                                          margin: const EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.deepOrange.shade200,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5))),
+                                          child: Text(
+                                            widget.recipe.infoPro == null
+                                                ? "정보없음"
+                                                : "${widget.recipe.infoPro}g",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
+                            ))
                       ],
                     ),
                   )),

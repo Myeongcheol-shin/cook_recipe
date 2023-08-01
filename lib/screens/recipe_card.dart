@@ -85,9 +85,14 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: Colors.green),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           elevation: 0,
           backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.green),
           title:
               Text(widget.recipe, style: const TextStyle(color: Colors.black)),
         ),
