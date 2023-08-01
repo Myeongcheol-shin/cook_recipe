@@ -1,4 +1,5 @@
 import 'package:cook_recipe/models/recipe.dart';
+import 'package:cook_recipe/screens/recipe_content.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -99,11 +100,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 20),
+                                fontSize: 24),
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(left: 15),
+                          margin: const EdgeInsets.only(left: 20),
                           alignment: Alignment.topLeft,
                           child: const Text(
                             "재료",
@@ -158,21 +159,31 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     spreadRadius: 1.0,
                     offset: const Offset(1, 2))
               ], borderRadius: BorderRadius.circular(20), color: Colors.green),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "레시피 보러가기",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    color: Colors.white,
-                  )
-                ],
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              RecipeContent(recipe: widget.recipe),
+                          fullscreenDialog: true));
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "레시피 보러가기",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
               ),
             ),
           )
