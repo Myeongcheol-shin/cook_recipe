@@ -42,4 +42,22 @@ class ApiService {
     }
     return null;
   }
+
+  static Future<List<Recipe>> getRecipesForName(String name) async {
+    final url = Uri.parse('$baseUrl/1/10/RCP_NM=$name');
+    final response = await http.get(url);
+
+    final List<Recipe> recipes = [];
+
+    if (response.statusCode == 200) {
+      final rb = jsonDecode(response.body);
+      final items = rb['COOKRCP01']["row"];
+      if (items == null) return [];
+      for (var item in items) {
+        recipes.add(Recipe.jsonDecode(item));
+      }
+      return recipes;
+    }
+    return [];
+  }
 }
