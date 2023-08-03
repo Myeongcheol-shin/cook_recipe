@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:cook_recipe/keys/api_key.dart';
 import 'package:cook_recipe/models/recipe.dart';
 import 'package:http/http.dart' as http;
@@ -45,6 +46,43 @@ class ApiService {
 
   static Future<List<Recipe>> getRecipesForName(String name) async {
     final url = Uri.parse('$baseUrl/1/10/RCP_NM=$name');
+    final response = await http.get(url);
+
+    final List<Recipe> recipes = [];
+
+    if (response.statusCode == 200) {
+      final rb = jsonDecode(response.body);
+      final items = rb['COOKRCP01']["row"];
+      if (items == null) return [];
+      for (var item in items) {
+        recipes.add(Recipe.jsonDecode(item));
+      }
+      return recipes;
+    }
+    return [];
+  }
+
+  static Future<List<Recipe>> getRecipesForIngredients(String name) async {
+    final url = Uri.parse('$baseUrl/1/10/RCP_PARTS_DTLS=$name');
+    final response = await http.get(url);
+
+    final List<Recipe> recipes = [];
+
+    if (response.statusCode == 200) {
+      final rb = jsonDecode(response.body);
+      final items = rb['COOKRCP01']["row"];
+      if (items == null) return [];
+      for (var item in items) {
+        recipes.add(Recipe.jsonDecode(item));
+      }
+      return recipes;
+    }
+    return [];
+  }
+
+  static Future<List<Recipe>> getRandomRecipe() async {
+    final randomNumber = 1 + Random().nextInt(1100);
+    final url = Uri.parse('$baseUrl/$randomNumber/${randomNumber + 5}/');
     final response = await http.get(url);
 
     final List<Recipe> recipes = [];

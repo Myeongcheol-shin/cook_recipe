@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:cook_recipe/models/recipe.dart';
+import 'package:cook_recipe/screens/ingredients_search.dart';
 import 'package:cook_recipe/screens/norecipe_screen.dart';
 import 'package:cook_recipe/screens/recipe_card.dart';
 import 'package:cook_recipe/database/db.dart';
 import 'package:cook_recipe/database/recipe_data.dart';
+import 'package:cook_recipe/screens/recipe_detail.dart';
 import 'package:cook_recipe/services/api_service.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   late Future<List<RecipeDB>> recipeDB;
   late Future<List<Recipe>> recipeInfoList;
+  late Future<List<Recipe>> randomRecipe;
   bool isSearch = false;
   bool firstInit = false;
   Timer? _debounce;
@@ -35,6 +38,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           if (!_focusNode.hasFocus) {resetSearchState()}
         });
     recipeInfoList = Future.value([]);
+    randomRecipe = ApiService.getRandomRecipe();
   }
 
   resetSearchState() {
@@ -135,366 +139,523 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ))
           ],
         ),
+        floatingActionButton: FloatingActionButton.extended(
+            label: const Text(
+              "재료로 검색",
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            backgroundColor: Colors.green,
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const IngreditentScreen(),
+                      fullscreenDialog: true));
+            }),
         body: Stack(
           children: [
             GestureDetector(
               onTap: () {},
-              child: Container(
-                color: Colors.grey.shade200,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        const Text(
-                          "Recipe Type",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                            width: 35,
-                            child: Image.asset(
-                              'assets/images/icon_chef.png',
-                            )),
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Container(
+                  color: Colors.grey.shade200,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RecipeCard(recipe: "국"),
-                                          fullscreenDialog: true))
-                                  .then((value) {
-                                setState(() {
-                                  recipeDB = getRecipeDB();
+                          const Text(
+                            "Recipe Type",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          SizedBox(
+                              width: 35,
+                              child: Image.asset(
+                                'assets/images/icon_chef.png',
+                              )),
+                        ],
+                      ),
+                      SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RecipeCard(recipe: "국"),
+                                            fullscreenDialog: true))
+                                    .then((value) {
+                                  setState(() {
+                                    recipeDB = getRecipeDB();
+                                  });
                                 });
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        blurRadius: 2.0,
-                                        spreadRadius: 2.0,
-                                        offset: const Offset(2, 3))
-                                  ],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.asset(
-                                            'assets/images/icon_soup.png',
-                                          )),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    const Text(
-                                      "국",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 2.0,
+                                          offset: const Offset(2, 3))
+                                    ],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.asset(
+                                              'assets/images/icon_soup.png',
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        "국",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RecipeCard(recipe: "밥"),
-                                      fullscreenDialog: true));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        blurRadius: 2.0,
-                                        spreadRadius: 2.0,
-                                        offset: const Offset(2, 3))
-                                  ],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.asset(
-                                            'assets/images/icon_rice.png',
-                                          )),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    const Text(
-                                      "밥",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RecipeCard(recipe: "밥"),
+                                            fullscreenDialog: true))
+                                    .then((value) {
+                                  setState(() {
+                                    recipeDB = getRecipeDB();
+                                  });
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 2.0,
+                                          offset: const Offset(2, 3))
+                                    ],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.asset(
+                                              'assets/images/icon_rice.png',
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        "밥",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RecipeCard(recipe: "반찬"),
-                                      fullscreenDialog: true));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        blurRadius: 2.0,
-                                        spreadRadius: 2.0,
-                                        offset: const Offset(2, 3))
-                                  ],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.asset(
-                                            'assets/images/icon_kimchi.png',
-                                          )),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    const Text(
-                                      "반찬",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RecipeCard(recipe: "반찬"),
+                                            fullscreenDialog: true))
+                                    .then((value) {
+                                  setState(() {
+                                    recipeDB = getRecipeDB();
+                                  });
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 2.0,
+                                          offset: const Offset(2, 3))
+                                    ],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.asset(
+                                              'assets/images/icon_kimchi.png',
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        "반찬",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RecipeCard(recipe: "후식"),
-                                      fullscreenDialog: true));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        blurRadius: 2.0,
-                                        spreadRadius: 2.0,
-                                        offset: const Offset(2, 3))
-                                  ],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.asset(
-                                            'assets/images/icon_desert.png',
-                                          )),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    const Text(
-                                      "후식",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RecipeCard(recipe: "후식"),
+                                            fullscreenDialog: true))
+                                    .then((value) {
+                                  setState(() {
+                                    recipeDB = getRecipeDB();
+                                  });
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 2.0,
+                                          offset: const Offset(2, 3))
+                                    ],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.asset(
+                                              'assets/images/icon_desert.png',
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        "후식",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Random",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.red[400],
+                                fontWeight: FontWeight.w700),
+                          ),
+                          const Text(
+                            " Recipe",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "My",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.yellow[800],
-                              fontWeight: FontWeight.w700),
-                        ),
-                        const Text(
-                          " Favorites Recipe",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    FutureBuilder(
-                      future: recipeDB,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return SizedBox(
-                            width: double.infinity,
-                            height: 200,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (context, index) {
-                                      final item = snapshot.data![index];
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NoRecipScreen(
-                                                                recipeName: item
-                                                                    .recipeName),
-                                                        fullscreenDialog: true))
-                                                .then((value) {
-                                              setState(() {
-                                                recipeDB = getRecipeDB();
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      FutureBuilder(
+                        future: randomRecipe,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: 200,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final item = snapshot.data![index];
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              RecipeDetail(
+                                                                  recipe: item),
+                                                          fullscreenDialog:
+                                                              true))
+                                                  .then((value) {
+                                                setState(() {
+                                                  recipeDB = getRecipeDB();
+                                                });
                                               });
-                                            });
-                                          },
-                                          child: Stack(
-                                            children: [
-                                              ColorFiltered(
-                                                colorFilter: ColorFilter.mode(
-                                                    Colors.black
-                                                        .withOpacity(0.6),
-                                                    BlendMode.darken),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  child: ExtendedImage.network(
-                                                    item.img,
-                                                    width: 380,
-                                                    height: 200,
-                                                    cache: true,
-                                                    fit: BoxFit.cover,
-                                                    headers: const {
-                                                      "User-Agent":
-                                                          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                                                    },
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                ColorFiltered(
+                                                  colorFilter: ColorFilter.mode(
+                                                      Colors.black
+                                                          .withOpacity(0.6),
+                                                      BlendMode.darken),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                    child:
+                                                        ExtendedImage.network(
+                                                      item.image1,
+                                                      width: 380,
+                                                      height: 200,
+                                                      cache: true,
+                                                      fit: BoxFit.cover,
+                                                      headers: const {
+                                                        "User-Agent":
+                                                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Positioned(
-                                                width: 380,
-                                                left: 0,
-                                                bottom: 0,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(item.recipeName,
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w800)),
+                                                Positioned(
+                                                  width: 380,
+                                                  left: 0,
+                                                  bottom: 0,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(item.recipeName,
+                                                        style: const TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w800)),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    ),
-                  ],
+                                ],
+                              ),
+                            );
+                          } else {
+                            return const SizedBox(
+                              height: 200,
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "My",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.yellow[800],
+                                fontWeight: FontWeight.w700),
+                          ),
+                          const Text(
+                            " Favorites Recipe",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      FutureBuilder(
+                        future: recipeDB,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: 200,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final item = snapshot.data![index];
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NoRecipScreen(
+                                                                  recipeName: item
+                                                                      .recipeName),
+                                                          fullscreenDialog:
+                                                              true))
+                                                  .then((value) {
+                                                setState(() {
+                                                  recipeDB = getRecipeDB();
+                                                });
+                                              });
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                ColorFiltered(
+                                                  colorFilter: ColorFilter.mode(
+                                                      Colors.black
+                                                          .withOpacity(0.6),
+                                                      BlendMode.darken),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                    child:
+                                                        ExtendedImage.network(
+                                                      item.img,
+                                                      width: 380,
+                                                      height: 200,
+                                                      cache: true,
+                                                      fit: BoxFit.cover,
+                                                      headers: const {
+                                                        "User-Agent":
+                                                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  width: 380,
+                                                  left: 0,
+                                                  bottom: 0,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(item.recipeName,
+                                                        style: const TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w800)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -538,6 +699,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 FocusScope.of(context).unfocus();
                                 resetSearchState();
                               }
+                            });
+                            Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoRecipScreen(
+                                            recipeName: snapshot
+                                                .data![index].recipeName),
+                                        fullscreenDialog: true))
+                                .then((value) {
+                              setState(() {
+                                recipeDB = getRecipeDB();
+                              });
                             });
                           },
                           child: Text(

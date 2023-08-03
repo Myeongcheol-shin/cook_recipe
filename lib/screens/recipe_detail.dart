@@ -199,204 +199,204 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           height: 3,
                         ),
                         Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            "칼로리 : ",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14),
-                                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: const Text(
+                                          "칼로리 : ",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14),
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 5),
-                                          margin: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                              color: Colors.deepOrange.shade200,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5))),
-                                          child: Text(
-                                            widget.recipe.infoEng == null
-                                                ? "정보없음"
-                                                : "${widget.recipe.infoEng}kcal",
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        margin: const EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: Colors.deepOrange.shade200,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5))),
+                                        child: Text(
+                                          widget.recipe.infoEng == null
+                                              ? "정보없음"
+                                              : "${widget.recipe.infoEng}kcal",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700),
                                         ),
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: const Text(
+                                          "나트륨 : ",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        margin: const EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: Colors.deepOrange.shade200,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5))),
+                                        child: Text(
+                                          widget.recipe.infoNa == null
+                                              ? "정보없음"
+                                              : "${widget.recipe.infoNa}g",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: const Text(
+                                          "탄수화물 : ",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        margin: const EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: Colors.deepOrange.shade200,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5))),
+                                        child: Text(
+                                          widget.recipe.infoCar == null
+                                              ? "정보없음"
+                                              : "${widget.recipe.infoCar}g",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: const Text(
+                                          "단백질 : ",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        margin: const EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: Colors.deepOrange.shade200,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5))),
+                                        child: Text(
+                                          widget.recipe.infoPro == null
+                                              ? "정보없음"
+                                              : "${widget.recipe.infoPro}g",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: const Text(
+                                      "지방 : ",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14),
                                     ),
-                                    const SizedBox(
-                                      width: 10,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 3, horizontal: 5),
+                                    margin: const EdgeInsets.all(3),
+                                    decoration: BoxDecoration(
+                                        color: Colors.deepOrange.shade200,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: Text(
+                                      widget.recipe.infoFat == null
+                                          ? "정보없음"
+                                          : "${widget.recipe.infoFat}g",
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700),
                                     ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            "나트륨 : ",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 5),
-                                          margin: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                              color: Colors.deepOrange.shade200,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5))),
-                                          child: Text(
-                                            widget.recipe.infoNa == null
-                                                ? "정보없음"
-                                                : "${widget.recipe.infoNa}g",
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            "지방 : ",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 5),
-                                          margin: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                              color: Colors.deepOrange.shade200,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5))),
-                                          child: Text(
-                                            widget.recipe.infoFat == null
-                                                ? "정보없음"
-                                                : "${widget.recipe.infoFat}g",
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            "탄수화물 : ",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 5),
-                                          margin: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                              color: Colors.deepOrange.shade200,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5))),
-                                          child: Text(
-                                            widget.recipe.infoCar == null
-                                                ? "정보없음"
-                                                : "${widget.recipe.infoCar}g",
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            "단백질 : ",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 5),
-                                          margin: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                              color: Colors.deepOrange.shade200,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5))),
-                                          child: Text(
-                                            widget.recipe.infoPro == null
-                                                ? "정보없음"
-                                                : "${widget.recipe.infoPro}g",
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ))
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )),
             ),
           ),
           Positioned(
-            left: 100,
-            right: 100,
+            left: 80,
+            right: 80,
             bottom: 30,
             child: Container(
               height: 40,
