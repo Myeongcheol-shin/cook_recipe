@@ -11,7 +11,8 @@ Dart언어와 Flutter프레임워크로 제작한 android / ios 어플리케이�
 
 ## 사용 기술
 <img src="https://img.shields.io/badge/SQLiter-003B57?style=flat-square&logo=SQLite&logoColor=white"/> : 요리 레시피 즐겨찾기 데이터 정보 저장  
-http : REST API 통신
+http : REST API 통신  
+Paging : API 통신 결과를 5개씩 들고와서 사용자의 로딩 시간을 줄임
 
 
 
